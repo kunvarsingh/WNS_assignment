@@ -1,0 +1,166 @@
+<div class="main-banner">
+  <img src="././assets/img/orange_circles.gif" class="global-loader" *ngIf="loading">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="#">
+            <i class="fas fa-university"></i>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" (click)="chart1()">Chart 1</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" (click)="chart2()">Chart 2</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" (click)="chart3()">Chart 3</a>
+              </li>
+            </ul>
+            <ul class="navbar-nav mr-right vertical-divider">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle  font-weight-bold" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  Log In
+                </a>
+
+                <div class="dropdown-menu p-3">
+
+                  <div class="arrow_box1"></div>
+                  <div class="row">
+                    <div class="col-5" style="background-color: #8bc53f">
+                      <div class="p-4">
+                        <h4 class="text-white pt-4 font-weight-bold">Log In</h4>
+                        <p class="text-white pt-3 font-weight-normal">
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                        </p>
+                      </div>
+
+                    </div>
+
+                    <!-- Login code start -->
+                    <div class="col-7 pl-0">
+                      <div class="pt-5 text-center">
+                        <h5 class="   font-weight-normal pl-4 p-2 text-white" style="background-color: #8bc53f">Login</h5>
+                      </div>
+                       <form [formGroup]="loginForm" class="p-4">  
+                        <div class="form-group">
+                          <label for="exampleInputEmail">Email</label>
+                          <input type="email" class="form-control border-top-0 border-right-0 border-left-0 rounded-0" id="exampleInputEmail" aria-describedby="emailHelp"
+                            placeholder="Type Here..." formControlName="email">
+                             <div style="color:red" *ngIf="!loginForm.controls['email'].valid&&loginForm.controls['email'].dirty">
+                                                <span *ngIf="loginForm.controls['email'].errors['required']">Email is required*</span>
+                                                <span *ngIf="loginForm.controls['email'].errors['pattern']">Invalid email id format</span>
+
+                              </div>
+
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputPassword1">Password</label>
+                          <input type="password" class="form-control border-top-0 border-right-0 border-left-0 rounded-0" id="exampleInputPassword1"
+                            placeholder="**********" formControlName="password">
+                            <div style="color:red" *ngIf="!loginForm.controls['password'].valid&&loginForm.controls['password'].dirty">
+                                                <span *ngIf="loginForm.controls['password'].errors['required']">Password is required*</span>
+                            </div>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-md btn-block" style="background-color: #8bc53f;color:#fff" (click)="login(loginForm.value)" [disabled]="!loginForm.valid">Login</button>
+                      </form>
+                    </div>
+                    <!-- Login code end -->
+
+                  </div>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link dropdown-toggle  font-weight-bold" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  Register
+                </a>
+                <div class="dropdown-menu p-3">
+
+                    <div class="arrow_box"></div>
+                    <div class="row">
+                      <div class="col-5" style="background-color: #8bc53f">
+                        <div class="p-4">
+                          <h4 class="text-white pt-4 font-weight-bold">Register</h4>
+                          <p class="text-white pt-3 font-weight-normal">
+                            Country to popular belief,
+                            <br> Lorem Ipsum is not simply
+                            <br> random text, Contrary to
+                            <br> popular belief, Lorem Ipsum
+                            <br> is not simply random text.
+                          </p>
+                        </div>
+                        <img src="././assets/images/classmates.png"  class="img-fluid" alt="Responsive image">
+                      </div>
+                      <div class="col-7 pl-0">
+                        <div class="pt-5 text-center">
+                          <h5 class="   font-weight-normal pl-4 p-2 text-white" style="background-color: #8bc53f">Register as a Student</h5>
+                        </div>
+                        <form [formGroup]="registerForm" class="p-4">
+                        
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">User Name</label>
+                            <input type="text" class="form-control border-top-0 border-right-0 border-left-0 rounded-0" id="exampleInputname1" aria-describedby="nameHelp"
+                              placeholder="Type Here..." formControlName="username">
+
+                               <div style="color:red" *ngIf="!registerForm.controls['username'].valid&&registerForm.controls['username'].dirty">
+                                                <span *ngIf="registerForm.controls['username'].errors['required']">User Name is required*</span>
+                                </div>
+
+
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Email</label>
+                            <input type="email" class="form-control border-top-0 border-right-0 border-left-0 rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp"
+                              placeholder="Type Here..." formControlName="email">
+
+                              <div style="color:red" *ngIf="!registerForm.controls['email'].valid&&registerForm.controls['email'].dirty">
+                                                <span *ngIf="registerForm.controls['email'].errors['required']">Email is required*</span>
+                                                <span *ngIf="registerForm.controls['email'].errors['pattern']">Invalid email id format</span>
+                                </div>
+
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleInputPassword2">Password</label>
+                            <input type="password" class="form-control border-top-0 border-right-0 border-left-0 rounded-0" id="exampleInputPassword2"
+                              placeholder="**********" formControlName="password">
+                               <div style="color:red" *ngIf="!registerForm.controls['password'].valid&&registerForm.controls['password'].dirty">
+                                                <span *ngIf="registerForm.controls['password'].errors['required']">Password is required*</span>
+                                </div>
+
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleInputPassword3">Confirm Password</label>
+                            <input type="password" class="form-control border-top-0 border-right-0 border-left-0 rounded-0" id="exampleInputPassword3"
+                              placeholder="**********" formControlName="confirmpassword">
+                               
+                                <div style="color:red" *ngIf="!registerForm.controls['confirmpassword'].valid&&registerForm.controls['confirmpassword'].dirty">
+                                            </div>
+                                            <div *ngIf="registerForm.controls['confirmpassword'].dirty&&registerForm.hasError('mismatchedPasswords')"><span style="color:red;">Confirm Password does not match.</span></div>
+
+                          </div>
+                          <button type="submit" class="btn btn-md btn-block" style="background-color: #8bc53f;color:#fff" (click)="register(registerForm.value)" [disabled]="!registerForm.valid">Create Account</button>
+
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+              </li>
+
+            </ul>
+
+
+          </div>
+        </div>
+      </nav>
+
+</div>
