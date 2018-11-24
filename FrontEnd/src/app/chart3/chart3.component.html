@@ -13,19 +13,65 @@
                 <a class="nav-link" (click)="home()">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" (click)="chart1()">Chart 1</a>
+                <a class="nav-link" (click)="chart1()">Line Chart</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" (click)="chart2()">Chart 2</a>
+                <a class="nav-link" (click)="chart2()">Pie Chart</a>
               </li>
             </ul>
+
+            <ul class="navbar-nav mr-right vertical-divider">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle  font-weight-bold" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false" (click)="logout()">
+                  Logout
+                </a>
+              </li>
+            </ul>
+
           </div>
         </div>
       </nav>
-
-
-      <div class="col-sm-8">
-  <div *ngIf="chart" >
+<div class="col-sm-12">   
+<div class="col-sm-7" style="float: right;">
+  <div *ngIf="chart">
     <canvas id="canvas">{{ chart }}</canvas>
   </div>
+</div>
+
+<div class="col-sm-4">
+<form [formGroup]="userForm" class="p-4">  
+    <div class="form-group">
+      <label for="exampleInputEmail">Email</label>
+      <input type="email" class="form-control border-top-0 border-right-0 border-left-0 rounded-0" id="exampleInputEmail" aria-describedby="emailHelp"
+        placeholder="Type email..." formControlName="email">
+         <div style="color:red" *ngIf="!userForm.controls['email'].valid&&userForm.controls['email'].dirty">
+            <span *ngIf="userForm.controls['email'].errors['required']">Email is required*</span>
+            <span *ngIf="userForm.controls['email'].errors['pattern']">Invalid email id format</span>
+          </div>
+    </div>
+
+     <div class="form-group">
+      <label for="exampleInputEmail">Name</label>
+      <input type="text" class="form-control border-top-0 border-right-0 border-left-0 rounded-0" id="exampleInputName" aria-describedby="emailHelp"
+        placeholder="Type name..." formControlName="name">
+         <div style="color:red" *ngIf="!userForm.controls['name'].valid&&userForm.controls['name'].dirty">
+            <span *ngIf="userForm.controls['name'].errors['required']">Name is required*</span>
+            </div>
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputPassword1">Point</label>
+      <input type="number" class="form-control border-top-0 border-right-0 border-left-0 rounded-0" id="exampleInputPassword1"
+        placeholder="**********" formControlName="point">
+        <div style="color:red" *ngIf="!userForm.controls['point'].valid&&userForm.controls['point'].dirty">
+                            <span *ngIf="userForm.controls['point'].errors['required']">Point is required*</span>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-md btn-block" style="background-color: #8bc53f;color:#fff" (click)="submit(userForm.value)" [disabled]="!userForm.valid">Submit</button>
+</form>
+</div>
+
+
 </div>

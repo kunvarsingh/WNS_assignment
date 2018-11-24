@@ -5,14 +5,32 @@ var nodemailer = require('nodemailer');
 var bcrypt = require('bcrypt');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
+var fs = require('fs');
+var cron = require('node-cron');
+const Binance = require('binance-api-node').default;
+var Excel = require('exceljs');
+var wb = new Excel.Workbook();
+var path = require('path');
+var filePath = path.resolve('sample.xlsx');
+
+// Make instance 
+function binanceInstance(apiKey,secretKey){
+  const client = Binance({
+    apiKey: apiKey,
+    apiSecret: secretKey
+  });
+  return client;
+}
 
 
-// Modals
+// Modals and custome file import
 var User = require('../models/userModel.js');
 var Point = require('../models/point.js');
+var CONST = require('../../config/constant');
 
 // ----------------------------Registeration-------------------------------
-/* Kunvar singh 24-11-2018*/
+/* Kunvar singh 24-11-2018
+   Description : Register with mongodb using this API*/
 // -----------------------------------------------------------
 
 var registration = (req, res)=>{
@@ -68,7 +86,8 @@ var registration = (req, res)=>{
     }
 
 // ----------------------------Login-------------------------------
-/* Kunvar singh 24-11-2018*/
+/* Kunvar singh 24-11-2018
+   Description : Login with credential usign all the cases*/
 // -----------------------------------------------------------
   var login = (req,res)=>{
           var reqObj = {
@@ -106,47 +125,12 @@ var registration = (req, res)=>{
    }
 
 
-// Chart1  Data api
-var chart1 = (req, res)=>{
-  // res.send({status:200,result: [
-  // {
-  //     "month": "Jan",
-  //     "price": "180"
-  // },
-  // {
-  //   "month": "Feb",
-  //   "price": "200"
-  // },
-  // {
-  //   "month": "March",
-  //   "price": "210"
-  // },
-  // {
-  //   "month": "April",
-  //   "price": "190"
-  // },
-  // {
-  //   "month": "May",
-  //   "price": "240"
-  // },
-  // {
-  //   "month": "June",
-  //   "price": "230"
-  // },
-  // {
-  //   "month": "July",
-  //   "price": "260"
-  // },
-  // {
-  //   "month": "Aug",
-  //   "price": "210"
-  // },
-  // {
-  //   "month": "Sept",
-  //   "price": "300"
-  // }]});
-
-  Point.aggregate(
+// --------------------------------------------START-----------------------------------------------
+/* Description  : Charts data and get from MongoDB using aggreation
+   Name : Kunvar Singh
+   Date : 24th, Nov,2018*/
+var chartResult = (req, res)=>{
+    Point.aggregate(
    [{$group:
          {
            _id: { email: "$Email" },
@@ -159,8 +143,15 @@ var chart1 = (req, res)=>{
   console.log(data);
   return res.send({status : 200, result : data});
 });
-
 }
+// --------------------------------------------END-----------------------------------------------
+
+
+
+// --------------------------------------------START-----------------------------------------------
+/* Description  : To save the points for users
+   Name : Kunvar Singh
+   Date : 24th, Nov,2018*/
 
 var savePoint = (req, res)=>{
   var name = req.body.name;
@@ -182,9 +173,67 @@ var savePoint = (req, res)=>{
    return res.send({status:400, message :"No data found!."})
   }
 }
+// --------------------------------------------END-----------------------------------------------
+
+
+
+// --------------------------------------------START-----------------------------------------------
+/* Description  : File system read data through excel sheet
+   Name : Kunvar Singh
+   Date : 24th, Nov,2018*/
+var readExceldata = (req, res)=>{
+    wb.xlsx.readFile(filePath).then(function(){
+      var sh = wb.getWorksheet("Sheet1");
+      // sh.getRow(1).getCell(2).value = 32; // We can manupulate field value like as
+      wb.xlsx.writeFile("samplecopy.xlsx");
+      // console.log(sh.rowCount); //For counting no of rows
+      for (i = 1; i <= sh.rowCount; i++) {
+          var points = sh.getRow(i).getCell(3).value;
+          console.log(sh.getRow(i).getCell(1).value,sh.getRow(i).getCell(2).value,(parseInt(points)+CONST.wnsConstant.manupulationValue));
+      }
+  });
+    return res.send({status:200,message : "File has been saved successfully"})
+}
+// --------------------------------------------END-----------------------------------------------
+
+
+
+// --------------------------------------------START-----------------------------------------------
+/* Description  : To start a schedule job in every 1 minute
+   Name : Kunvar Singh
+   Date : 24th, Nov,2018*/
+var scheduleJob = (req, res)=>{
+  var task =  cron.schedule('*/1 * * * *', async() => {
+    console.log("i am a scheduling job started in every 1 min");
+    getDataFromThirdParty();
+  });
+  return res.send({status:200, message:'Job has been started yet!.'});
+}
+
+
+// --------------------------------------------START-----------------------------------------------
+/*KAUNVAR SINGH*/
+// Calling third party api here
+function getDataFromThirdParty(){
+  return new Promise((resolve,reject)=>{
+    var binance = binanceInstance("","");
+        let accountFunds = binance.prices();
+        accountFunds.then((sucess)=>{
+          console.log("Going to updated in Koinfox DB",sucess);
+          // save here in DB
+        })
+        .catch((error)=>{
+          console.log("Error occured while fetching funds",error);
+        });
+  })
+}
+// --------------------------------------------END-----------------------------------------------
+
+
 // Export function for access interact with DB
-    exports.registration = registration;
-    exports.login  = login;
-    
-    exports.chart1 = chart1;
-    exports.savePoint = savePoint;
+  exports.registration = registration;
+  exports.login  = login;
+  exports.chart1 = chartResult;
+  exports.savePoint = savePoint;
+  exports.readExceldata = readExceldata;
+  exports.scheduleJob = scheduleJob;

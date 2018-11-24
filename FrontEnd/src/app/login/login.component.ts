@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
               localStorage.setItem('token', response[0].json.token);
               var user=JSON.parse(localStorage.getItem('currentUser')); 
              this.global_service.showNotification('top','right',response[0].json.message,2,'ti-cross');   
-               // this.router.navigateByUrl('/dashboard/adminDashboard'); route here for home screen after successfully login
+               this.router.navigateByUrl('/chart1');
           }else{     
               this.loginForm.reset();
               this.loading=false;   

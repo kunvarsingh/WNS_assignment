@@ -47,6 +47,10 @@ userForm: FormGroup;
   	 this.getUsersPoints();
   }
 
+  logout(){
+    this.global_service.logout();
+  }
+
   getUsersPoints(){
   	this.chart = [];
   	this.loading=true;

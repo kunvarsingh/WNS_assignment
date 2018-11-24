@@ -11,15 +11,18 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^1.0.3",
+    "binance-api-node": "^0.8.10",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "crypto": "^1.0.1",
     "dateformat": "^3.0.3",
+    "exceljs": "^1.6.3",
     "express": "^4.16.3",
     "jade": "^1.11.0",
     "jsonwebtoken": "^8.2.0",
     "mongoose": "^5.0.11",
     "mongoose-unique-validator": "^2.0.0",
+    "node-cron": "^2.0.3",
     "nodemailer": "^4.6.3",
     "q": "^1.5.1"
   }

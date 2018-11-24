@@ -53,9 +53,11 @@ export class GlobalService {
         let headers;
         if (localStorage.getItem('token')) {
             let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            headers = new Headers();
-            headers.append("Content-Type", "application/json");
-            headers.append("token",this.userInfo.token);
+            if(userInfo){
+                headers = new Headers();
+                headers.append("Content-Type", "application/json");
+                headers.append("token",this.userInfo.token);
+            }
         }
         else {
              }
@@ -137,6 +139,13 @@ export class GlobalService {
             return Observable.throw(error);
         });
     }
+
+  logout(){
+    localStorage.clear();
+    this.router.navigateByUrl('/home');
+    this.showNotification('top','right',"logout successfully!.",2,'ti-cross');  
+  }
+
 
  
 
